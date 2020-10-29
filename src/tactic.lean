@@ -215,6 +215,8 @@ ls ← local_context >>= list.mfilter_map'
 let m := list.foldl  (λ (m : graph) (e : _ × _ × _ × _),
   let ⟨pr,e,x,y⟩ := e in
   m.insert x (pr,e,y)) (native.rb_lmap.mk expr (expr × edge × expr)) ls.join,
+x ← whnf x,
+y ← whnf y,
 pr ← dfs_trans m x y,
 tactic.apply pr <|>
   mk_app ``le_of_lt [pr] >>= tactic.apply,
